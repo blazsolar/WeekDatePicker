@@ -6,6 +6,7 @@ Date implementation is based on Java 8 Date Time backport [threeten](http://www.
 
 ## Example
 ![Example screenshot](images/example_screenshot.png)
+
 Source code with examples is included in repository.
 
 ## Dependencies
