@@ -529,6 +529,7 @@ public class WeekDatePicker extends View {
                         deltaMoveX = 0;
                         pressedDay = Integer.MIN_VALUE;
                         scrollingX = true;
+                        getParent().requestDisallowInterceptTouchEvent(true);
                         scrollPositionStart = getScrollX();
                     }
 
