@@ -5,7 +5,7 @@ WeekDatePicker is a lightweight implementation of week date picker for Android. 
 Date implementation is based on Java 8 Date Time backport [threeten](http://www.threeten.org/)
 
 ## Example
-![Example screenshot](https://raw.githubusercontent.com/blazsolar/WeekDatePicker/_branch_/images/example_screenshot.png)
+![Example screenshot](images/example_screenshot.png)
 Source code with examples is included in repository.
 
 ## Dependencies
