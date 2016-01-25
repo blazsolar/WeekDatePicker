@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <solar.blaz.date.week.WeekDatePicker
+        android:id="@+id/date_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textSize="18sp"
+        android:textColor="@color/date_picker_text_color"
+        app:labelTextSize="12sp"
+        app:labelPadding="5dp"
+        app:dayBackground="@drawable/date_picker_day_bg"
+        app:indicatorDrawable="@drawable/date_picker_indicator"
+        app:firstDayOfWeek="monday"/>
+
+</LinearLayout>

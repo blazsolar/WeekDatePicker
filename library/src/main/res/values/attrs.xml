@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="WeekDatePicker">
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+        <attr name="android:ellipsize" />
+        <attr name="dividerSize" format="dimension" />
+        <attr name="labelTextSize" format="dimension" />
+        <attr name="labelTextColor" format="color" />
+        <attr name="labelPadding" format="dimension"/>
+        <attr name="labelNames" format="reference" />
+        <attr name="dayBackground" format="reference" />
+        <attr name="indicatorDrawable" format="reference" />
+        <attr name="firstDayOfWeek" format="enum">
+            <enum name="saturday" value="6" />
+            <enum name="sunday" value="7" />
+            <enum name="monday" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <attr name="weekDatePickerStyle" format="reference" />
+
+</resources>
