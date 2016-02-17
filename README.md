@@ -12,7 +12,7 @@ Source code with examples is included in repository.
 ## Dependencies
 ### Gradle
 ```
-compile "blaz.solar:week-date-picker:1.0"
+compile "solar.blaz:week-date-picker:1.0"
 ```
 
 ## Usage
