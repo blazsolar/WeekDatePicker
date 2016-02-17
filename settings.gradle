@@ -1,2 +1,4 @@
 include ':library'
 include ':example'
+
+project(':library').name = 'week-date-picker'
