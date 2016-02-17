@@ -53,7 +53,7 @@ bintray {
         websiteUrl = "https://github.com/blazsolar/WeekDatePicker"
         issueTrackerUrl = 'https://github.com/blazsolar/WeekDatePicker/issues'
         vcsUrl = "https://github.com/blazsolar/WeekDatePicker"
-        licenses = ['Apache-2.0']
+        licenses = ['MIT']
         labels = ['aar', 'android', 'date']
         publicDownloadNumbers = true
 
@@ -71,8 +71,8 @@ install {
                 url "https://github.com/blazsolar/WeekDatePicker"
                 licenses {
                     license {
-                        name "The Apache Software License, Version 2.0"
-                        url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                        name 'The MIT License (MIT)'
+                        url 'http://rem.mit-license.org'
                     }
                 }
                 developers {
