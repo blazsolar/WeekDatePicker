@@ -1,6 +1,6 @@
 # WeekDatePicker
 
-WeekDatePicker is a lightweight implementation of week date picker for Android. It is based on a View instead of ViewGroup. That gives it benefit of being memory efficient, fast and adds ability of indefinite scrolling.
+WeekDatePicker is a lightweight implementation of week date picker for Android. It is based on a View instead of ViewGroup. That gives it benefit of being memory efficient, fast and adds ability of infinite scrolling.
 
 Date implementation is based on Java 8 Date Time backport [threeten](http://www.threeten.org/)
 
