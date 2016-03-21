@@ -31,11 +31,11 @@ compile "solar.blaz:week-date-picker:1.0"
         android:paddingBottom="5dp"
         android:textSize="18sp"
         android:textColor="@color/date_picker_text_color"
-        app:labelTextSize="12sp"
-        app:labelPadding="5dp"
-        app:dayBackground="@drawable/date_picker_day_bg"
-        app:indicatorDrawable="@drawable/date_picker_indicator"
-        app:firstDayOfWeek="monday"/>
+        app:wdp_labelTextSize="12sp"
+        app:wdp_labelPadding="5dp"
+        app:wdp_dayBackground="@drawable/date_picker_day_bg"
+        app:wdp_indicatorDrawable="@drawable/date_picker_indicator"
+        app:wdp_firstDayOfWeek="monday"/>
 
 </LinearLayout>
 
