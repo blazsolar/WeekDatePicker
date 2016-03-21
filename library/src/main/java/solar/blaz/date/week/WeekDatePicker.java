@@ -165,32 +165,32 @@ public class WeekDatePicker extends View {
                 dayTextColor = ColorStateList.valueOf(Color.BLACK);
             }
 
-            dayLabelTextColor = a.getColorStateList(R.styleable.WeekDatePicker_labelTextColor);
+            dayLabelTextColor = a.getColorStateList(R.styleable.WeekDatePicker_wdp_labelTextColor);
             if (dayLabelTextColor == null) {
                 dayLabelTextColor = ColorStateList.valueOf(Color.BLACK);
             }
 
             ellipsize = a.getInt(R.styleable.WeekDatePicker_android_ellipsize, ellipsize);
-            dividerSize = a.getDimension(R.styleable.WeekDatePicker_dividerSize, dividerSize);
+            dividerSize = a.getDimension(R.styleable.WeekDatePicker_wdp_dividerSize, dividerSize);
 
             float textSize = a.getDimension(R.styleable.WeekDatePicker_android_textSize, -1);
             if(textSize > -1) {
                 setTextSize(textSize);
             }
 
-            float labelTextSize = a.getDimension(R.styleable.WeekDatePicker_labelTextSize, -1);
+            float labelTextSize = a.getDimension(R.styleable.WeekDatePicker_wdp_labelTextSize, -1);
             if (labelTextSize > -1) {
                 setLabelTextSize(labelTextSize);
             }
 
-            labelPadding = a.getDimension(R.styleable.WeekDatePicker_labelPadding, labelPadding);
+            labelPadding = a.getDimension(R.styleable.WeekDatePicker_wdp_labelPadding, labelPadding);
 
-            labelNames = a.getTextArray(R.styleable.WeekDatePicker_labelNames);
+            labelNames = a.getTextArray(R.styleable.WeekDatePicker_wdp_labelNames);
 
-            dayDrawable = a.getDrawable(R.styleable.WeekDatePicker_dayBackground);
-            indicatorDrawable = a.getDrawable(R.styleable.WeekDatePicker_indicatorDrawable);
+            dayDrawable = a.getDrawable(R.styleable.WeekDatePicker_wdp_dayBackground);
+            indicatorDrawable = a.getDrawable(R.styleable.WeekDatePicker_wdp_indicatorDrawable);
 
-            int dayOfWeek = a.getInt(R.styleable.WeekDatePicker_firstDayOfWeek, DayOfWeek.SUNDAY.getValue());
+            int dayOfWeek = a.getInt(R.styleable.WeekDatePicker_wdp_firstDayOfWeek, DayOfWeek.SUNDAY.getValue());
             firstDayOfWeek = DayOfWeek.of(dayOfWeek);
 
         } finally {

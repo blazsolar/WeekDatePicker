@@ -5,14 +5,14 @@
         <attr name="android:textColor" />
         <attr name="android:textSize" />
         <attr name="android:ellipsize" />
-        <attr name="dividerSize" format="dimension" />
-        <attr name="labelTextSize" format="dimension" />
-        <attr name="labelTextColor" format="color" />
-        <attr name="labelPadding" format="dimension"/>
-        <attr name="labelNames" format="reference" />
-        <attr name="dayBackground" format="reference" />
-        <attr name="indicatorDrawable" format="reference" />
-        <attr name="firstDayOfWeek" format="enum">
+        <attr name="wdp_dividerSize" format="dimension" />
+        <attr name="wdp_labelTextSize" format="dimension" />
+        <attr name="wdp_labelTextColor" format="color" />
+        <attr name="wdp_labelPadding" format="dimension"/>
+        <attr name="wdp_labelNames" format="reference" />
+        <attr name="wdp_dayBackground" format="reference" />
+        <attr name="wdp_indicatorDrawable" format="reference" />
+        <attr name="wdp_firstDayOfWeek" format="enum">
             <enum name="saturday" value="6" />
             <enum name="sunday" value="7" />
             <enum name="monday" value="1" />
