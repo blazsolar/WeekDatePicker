@@ -35,6 +35,7 @@ import android.widget.OverScroller;
 import org.threeten.bp.DayOfWeek;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.format.TextStyle;
+import org.threeten.bp.temporal.ChronoUnit;
 import org.threeten.bp.temporal.TemporalAdjusters;
 
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public class WeekDatePicker extends View {
     private int touchSlop;
 
     private final LocalDate today;
-    private final LocalDate firstDay; // first day of week for current date
+    private LocalDate firstDay; // first day of week for current date
     private final DayOfWeek firstDayOfWeek;
     private final BoringLayout[] layouts = new BoringLayout[3 * 7]; // we are drawing 3 weeks at a time on screen
     private final BoringLayout[] dayLabelLayouts = new BoringLayout[7];
@@ -120,6 +121,8 @@ public class WeekDatePicker extends View {
     private int selectedDay;
     private int pressedDay = Integer.MIN_VALUE;
 
+    private int dayDelta;
+
     private float dividerSize = 0;
     private float labelPadding = 0;
 
@@ -127,6 +130,9 @@ public class WeekDatePicker extends View {
     @Nullable private Rect indicatorRect;
 
     private TextDirectionHeuristicCompat textDir;
+
+    @Nullable private LocalDate fromDate;
+    @Nullable private LocalDate toDate;
 
     public WeekDatePicker(Context context) {
         this(context, null);
@@ -330,7 +336,7 @@ public class WeekDatePicker extends View {
                 dayDrawable.draw(canvas);
             }
 
-            if (indicatorDrawable != null && dayIndicators.get(itemIndex, false)) {
+            if (indicatorDrawable != null && dayIndicators.get(itemIndex - dayDelta, false)) {
                 indicatorDrawable.setBounds(indicatorRect);
                 indicatorDrawable.setState(getItemDrawableState(itemIndex));
                 indicatorDrawable.draw(canvas);
@@ -353,7 +359,15 @@ public class WeekDatePicker extends View {
     }
 
     private LocalDate getFirstDay(int weekOffset) {
-        return today.plusWeeks(weekOffset).with(TemporalAdjusters.previousOrSame(firstDayOfWeek));
+        return getFirstDay().plusWeeks(weekOffset).with(TemporalAdjusters.previousOrSame(firstDayOfWeek));
+    }
+
+    @NonNull private LocalDate getFirstDay() {
+        if (fromDate != null) {
+            return fromDate;
+        } else {
+            return today;
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -362,6 +376,29 @@ public class WeekDatePicker extends View {
         super.onRtlPropertiesChanged(layoutDirection);
 
         textDir = getTextDirectionHeuristic();
+    }
+
+    public void setLimits(@Nullable LocalDate from, @Nullable LocalDate to) {
+
+        readjustIndexes(from);
+
+        fromDate = from;
+        toDate = to;
+
+        firstDay = getFirstDay(0);
+
+        invalidate();
+    }
+
+    private void readjustIndexes(@Nullable LocalDate newDate) {
+
+        LocalDate from = newDate == null ? today : newDate;
+        LocalDate to = fromDate == null ? today : fromDate;
+
+        int delta = from.until(to).getDays();
+        selectedDay += delta;
+        dayDelta = delta;
+
     }
 
     private TextDirectionHeuristicCompat getTextDirectionHeuristic() {
@@ -454,9 +491,11 @@ public class WeekDatePicker extends View {
 
         List<Integer> states = new ArrayList<>();
 
-        states.add(android.R.attr.state_enabled);
+        if (isItemEnabled(item)) {
+            states.add(android.R.attr.state_enabled);
+        }
 
-        if (isItemaPressed(item)) {
+        if (isItemPressed(item)) {
             states.add(android.R.attr.state_pressed);
         }
 
@@ -477,22 +516,44 @@ public class WeekDatePicker extends View {
 
     private int[] getItemDrawableState(int item) {
 
-        if (isItemSelected(item)) {
-            return new int[] { android.R.attr.state_selected, android.R.attr.state_enabled };
-        } else if (isItemaPressed(item)) {
-            return new int[] { android.R.attr.state_pressed, android.R.attr.state_enabled };
-        } else {
-            return new int[] { android.R.attr.state_enabled };
+        List<Integer> state = new ArrayList<>();
+        if (isItemEnabled(item)) {
+            state.add(android.R.attr.state_enabled);
         }
+
+        if (isItemSelected(item)) {
+            state.add(android.R.attr.state_selected);
+        }
+
+        if (isItemPressed(item)) {
+            state.add(android.R.attr.state_pressed);
+        }
+
+        int[] intState = new int[state.size()];
+        for (int i = 0; i < state.size(); i++) {
+            intState[i] = state.get(i);
+        }
+        return intState;
 
     }
 
-    private boolean isItemaPressed(int item) {
+    private boolean isItemPressed(int item) {
         return item == pressedDay;
     }
 
     private boolean isItemSelected(int item) {
         return item == selectedDay;
+    }
+
+    private boolean isItemEnabled(int item) {
+        LocalDate date = getDate(item);
+
+        return (fromDate == null || fromDate.isEqual(date) || fromDate.isBefore(date))
+                && (toDate == null || date.isEqual(toDate) || toDate.isAfter(date));
+    }
+
+    private LocalDate getDate(int day) {
+        return firstDay.plusDays(day);
     }
 
     @Override
@@ -571,7 +632,9 @@ public class WeekDatePicker extends View {
                     float positionX = event.getX();
                     if(!scrollingX) {
                         int itemPos = getDayPositionFromTouch(positionX);
-                        selectDay(itemPos);
+                        if (isItemEnabled(itemPos)) {
+                            selectDay(itemPos);
+                        }
                     } else if(scrollingX) {
                         finishScrolling();
                     }
@@ -594,6 +657,22 @@ public class WeekDatePicker extends View {
         selectDay(day);
     }
 
+    @Override public void scrollTo(int x, int y) {
+        if (fromDate != null && x < 0) {
+            x = 0;
+        }
+
+        if (toDate != null) {
+            float totalWidth = (weekWidth + dividerSize) * ChronoUnit.WEEKS.between(getFirstDay(), toDate);
+
+            if (x > totalWidth) {
+                x = (int) totalWidth;
+            }
+        }
+
+        super.scrollTo(x, y);
+    }
+
     private void selectDay(final int day) {
 
         if (selectedDay != day) {
@@ -602,7 +681,7 @@ public class WeekDatePicker extends View {
 
             // post to the UI Thread to avoid potential interference with the OpenGL Thread
             if (onDateSelected != null) {
-                final LocalDate date = firstDay.plusDays(day);
+                final LocalDate date = getDate(day);
                 post(new Runnable() {
                     @Override
                     public void run() {
