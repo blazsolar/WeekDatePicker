@@ -14,7 +14,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 group = 'solar.blaz'
-version = '1.2-SNAPSHOT'
+version = '1.2'
 
 android {
     compileSdkVersion 'Google Inc.:Google APIs:23'
