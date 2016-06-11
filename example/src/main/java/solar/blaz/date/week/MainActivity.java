@@ -21,5 +21,6 @@ public class MainActivity extends Activity {
         datePicker = (WeekDatePicker) findViewById(R.id.date_picker);
 
         datePicker.setDateIndicator(LocalDate.now().plusDays(1), true);
+        datePicker.setLimits(LocalDate.now().minusWeeks(1), null);
     }
 }
