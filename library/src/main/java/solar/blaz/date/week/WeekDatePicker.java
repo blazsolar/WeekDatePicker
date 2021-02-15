@@ -817,7 +817,7 @@ public class WeekDatePicker extends View {
     }
 
     private int getDayForDate(@NonNull LocalDate date) {
-        return firstDay.until(date).getDays();
+        return (int) (date.toEpochDay() - firstDay.toEpochDay());
     }
 
     @Override
