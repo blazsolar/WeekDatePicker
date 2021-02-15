@@ -8,5 +8,6 @@
 
 In chronological order:
 
-* [Your name or handle] <[email or website]>
-  * [Brief summary of your changes]
+* Tony Awino <[tonyawino](https://github.com\/tonyawino)>
+   * Adding number of days to display functionality
+   * Fix bug in selectDay
