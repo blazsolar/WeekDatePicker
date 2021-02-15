@@ -1,4 +1,8 @@
 # Change Log
+## Version 1.3 *(15.2.2021)*
+
+ * Adding number of days to display functionality
+ * Fix bug in selectDay
 
 ## Version 1.2 *(11.6.2016)*
 

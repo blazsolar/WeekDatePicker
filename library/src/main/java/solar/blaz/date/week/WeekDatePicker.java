@@ -14,10 +14,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.text.TextDirectionHeuristicCompat;
-import android.support.v4.text.TextDirectionHeuristicsCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.text.TextDirectionHeuristicCompat;
+import androidx.core.text.TextDirectionHeuristicsCompat;
 import android.text.BoringLayout;
 import android.text.Layout;
 import android.text.TextPaint;
@@ -81,6 +81,7 @@ public class WeekDatePicker extends View {
     private final DayOfWeek firstDayOfWeek;
     private final BoringLayout[] layouts = new BoringLayout[3 * 7]; // we are drawing 3 weeks at a time on screen
     private final BoringLayout[] dayLabelLayouts = new BoringLayout[7];
+    private final int numDaysToDisplay;
 
     @Nullable private final CharSequence[] labelNames;
 
@@ -198,6 +199,13 @@ public class WeekDatePicker extends View {
 
             int dayOfWeek = a.getInt(R.styleable.WeekDatePicker_wdp_firstDayOfWeek, DayOfWeek.SUNDAY.getValue());
             firstDayOfWeek = DayOfWeek.of(dayOfWeek);
+            int numDays = a.getInt(R.styleable.WeekDatePicker_wdp_numDaysToDisplay, 7);
+            if (numDays<=7 && numDays>0) {
+                numDaysToDisplay = numDays;
+            }
+            else {
+                numDaysToDisplay=7;
+            }
 
         } finally {
             a.recycle();
@@ -271,7 +279,7 @@ public class WeekDatePicker extends View {
                     measuredWidth = width;
                 }
 
-                int totalHeight = (int) (labelTextHeight + measuredWidth / 7 / 3 * 2 + labelPadding);
+                int totalHeight = (int) (labelTextHeight + measuredWidth / numDaysToDisplay / 3 * 2 + labelPadding);
 
                 if (heightMode == MeasureSpec.AT_MOST) {
                     height = Math.min(heightSize, totalHeight);
@@ -316,7 +324,7 @@ public class WeekDatePicker extends View {
         int centerY = layouts[0].getHeight() / 2;
         float dateLineOffset = circleRadius - centerY;
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < numDaysToDisplay; i++) {
 
             int itemIndex = weekOffset * 7 + i;
             BoringLayout layout = layouts[layoutIndex + i];
@@ -817,7 +825,7 @@ public class WeekDatePicker extends View {
     }
 
     private int getDayForDate(@NonNull LocalDate date) {
-        return firstDay.until(date).getDays();
+        return (int) (date.toEpochDay() - firstDay.toEpochDay());
     }
 
     @Override
@@ -837,7 +845,7 @@ public class WeekDatePicker extends View {
         int weekPositionFromTouch = getWeekPositionFromTouch(x);
         int position = weekPositionFromTouch * 7 + getRelativeDayPositionFromTouch(x);
         if (weekPositionFromTouch < 0) {
-            position += 6;
+            position += (numDaysToDisplay-1);
         }
         return position;
     }
@@ -945,7 +953,7 @@ public class WeekDatePicker extends View {
         int items = 1;
         int totalPadding = ((int) dividerSize * (items - 1));
         weekWidth = (w - totalPadding) / items;
-        dayWidth = weekWidth / 7;
+        dayWidth = weekWidth / numDaysToDisplay;
 
         scrollToItem(selectedWeek);
 
