@@ -279,7 +279,7 @@ public class WeekDatePicker extends View {
                     measuredWidth = width;
                 }
 
-                int totalHeight = (int) (labelTextHeight + measuredWidth / 7 / 3 * 2 + labelPadding);
+                int totalHeight = (int) (labelTextHeight + measuredWidth / numDaysToDisplay / 3 * 2 + labelPadding);
 
                 if (heightMode == MeasureSpec.AT_MOST) {
                     height = Math.min(heightSize, totalHeight);
@@ -845,7 +845,7 @@ public class WeekDatePicker extends View {
         int weekPositionFromTouch = getWeekPositionFromTouch(x);
         int position = weekPositionFromTouch * 7 + getRelativeDayPositionFromTouch(x);
         if (weekPositionFromTouch < 0) {
-            position += 6;
+            position += (numDaysToDisplay-1);
         }
         return position;
     }
